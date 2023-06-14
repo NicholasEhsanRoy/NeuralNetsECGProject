@@ -172,6 +172,7 @@ def getTrainingData(annotationFileName):
     
     return fileTrainingData
 
+print("hi")
 for x in newFiles[:5]:
     trainingData.append(getTrainingData(x))
 
