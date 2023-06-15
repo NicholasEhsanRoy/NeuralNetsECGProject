@@ -173,45 +173,53 @@ def load_training_samples():
             dic = i
     return eval(dic)
 
+#
+# path = "./ecgData\mitbih_database"
+#
+# files = os.listdir(path)
+# newFiles = []
+# for file in files:
+#     if file[-1] == "t":
+#         newFiles.append(file)
+#
+#
+# trainingData = []
+#
+# for x in newFiles:
+#     print(x)
+#     trainingData = trainingData + getTrainingData(x)
+#
+# random.shuffle(trainingData)
 
-path = "./ecgData\mitbih_database"
-
-files = os.listdir(path)
-newFiles = []
-for file in files:
-    if file[-1] == "t":
-        newFiles.append(file)
-
-
-trainingData = []
-
-for x in newFiles:
-    print(x)
-    trainingData = trainingData + getTrainingData(x)
-
-random.shuffle(trainingData)
-
-trainingSamples = []
-# counter = {"V":0,
-#            "R":0,
-#            "L":0,
-#            "N":0,
-#            "/":0,
-#            "F":0,
-#            "A":0,
-#            "E":0,
-#            "Q":0,
-#            "f":0,
-#            "J":0,
-#            "S":0}
+# trainingSamples = []
+# counter = {"N":0,
+#            "L":1,
+#            "R":2,
+#            "A":3,
+#            "a":4,
+#            "J":5,
+#            "S":6,
+#            "V":7,
+#            "F":8,
+#            "[":9,
+#            "!":10,
+#            "]":11,
+#            "e":12,
+#            "j":13,
+#            "E":14,
+#            "/":15,
+#            "f":16,
+#            "x":17,
+#            "Q":18,
+#            "|":19}
 #
 # for i, sample in enumerate(trainingData):
 #     if sample[1][0] in counter.keys():
-#         counter[sample[1][0]] += 1
-#         trainingSamples.append(sample)
+#        sample[1] = counter[sample[1][0]]
 
 
-save_training_samples(trainingData)
+
+# save_training_samples(trainingData)
 
 
 
