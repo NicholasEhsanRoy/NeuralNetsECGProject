@@ -48,7 +48,7 @@ def one_hot_encode(trainingData):
 
     for sample in trainingData:
         if sample[1][0] in reference.keys():
-            vector = [0, 0, 0, 0, 0]
+            vector = np.zeros(5)
             vector[reference[sample[1][0]]] = 1
             sample[1] = vector
         else:
@@ -66,15 +66,19 @@ def sample_targets(trainingData):
     for sample in trainingData:
         if sample[1][0] in counter.keys() and counter[sample[1][0]] < 2000:
             new_trainingData.append(sample)
-        if (counter['V'] + counter['R'] + counter['L'] + counter['N'] + counter['/']) >= 1000:
+            counter[sample[1][0]] += 1
+        if (counter['V'] + counter['R'] + counter['L'] + counter['N'] + counter['/']) >= 10000:
             return new_trainingData
     return new_trainingData
 
+def get_usable_trainingdata():
+    trainingData = process_data()
+    trainingData = sample_targets(trainingData)
+    trainingData = one_hot_encode(trainingData)
+    return trainingData
 
-trainingData = process_data()
-trainingData = sample_targets(trainingData)
-trainingData = one_hot_encode(trainingData)
-
+trainingData = get_usable_trainingdata()
 print(len(trainingData))
 print(len(trainingData[1][1]))
 print((trainingData[1][1]))
+print(trainingData[1])
