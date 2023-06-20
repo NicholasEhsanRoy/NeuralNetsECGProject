@@ -173,7 +173,7 @@ def load_training_samples():
             dic = i
     return eval(dic)
 
-#
+
 # path = "./ecgData\mitbih_database"
 #
 # files = os.listdir(path)
@@ -190,7 +190,7 @@ def load_training_samples():
 #     trainingData = trainingData + getTrainingData(x)
 #
 # random.shuffle(trainingData)
-
+#
 # trainingSamples = []
 # counter = {"N":0,
 #            "L":1,
@@ -216,9 +216,9 @@ def load_training_samples():
 # for i, sample in enumerate(trainingData):
 #     if sample[1][0] in counter.keys():
 #        sample[1] = counter[sample[1][0]]
-
-
-
+#
+#
+#
 # save_training_samples(trainingData)
 
 
