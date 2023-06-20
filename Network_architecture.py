@@ -17,4 +17,14 @@ x = keras.layers.Conv(64, activation='sigmoid')(x)
 x = keras.layers.Conv(32, activation='sigmoid')(x)
 x = keras.layers.Conv(32, activation='sigmoid')(x)
 x = keras.layers.Conv(32, activation='sigmoid')(x)
+x = keras.layers.Dense(16, activation='sigmoid')(x)
 ouput = keras.layers.Dense(5, activation='linear')(x)
+
+model = keras.Model(input, output)
+
+model.compile(loss = "MSE",
+optimizer = optimizers.Adam(learning_rate = 0.001))
+
+history = model.fit(samples, targets, epochs=1000, verbose=True)
+
+print(history)
