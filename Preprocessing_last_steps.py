@@ -71,14 +71,21 @@ def sample_targets(trainingData):
             return new_trainingData
     return new_trainingData
 
+
+def convert_to_nparray(trainingData):
+    samples = np.empty(shape=(10000,144))
+    targets = np.empty(shape=(10000,5))
+    for i, training in enumerate(trainingData):
+        samples[i] = training[0]
+        targets[i] = training[1]
+    np.save("targets", targets)
+    np.save("samples", samples)
+
 def get_usable_trainingdata():
     trainingData = process_data()
     trainingData = sample_targets(trainingData)
     trainingData = one_hot_encode(trainingData)
-    return trainingData
+    convert_to_nparray(trainingData)
 
-trainingData = get_usable_trainingdata()
-print(len(trainingData))
-print(len(trainingData[1][1]))
-print((trainingData[1][1]))
-print(trainingData[1])
+get_usable_trainingdata()
+
