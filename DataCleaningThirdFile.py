@@ -111,7 +111,7 @@ def normalise_y_axis(data, start=2100):
 def getTrainingData(annotationFileName):
     ONE_SECOND = 180
 
-    WINDOW_SIZE = ONE_SECOND * 0.8
+    WINDOW_SIZE = ONE_SECOND * 1
 
     WINDOW_SIZE = int(WINDOW_SIZE)
 
@@ -132,46 +132,39 @@ def getTrainingData(annotationFileName):
             if j == 0:
                 j += 1
                 continue
-            annotate.append([line.split()[1], line.split()[2]])
-        index = 0
-        while (i + WINDOW_SIZE) < length:
-            j = 0
-            anno = []
-            for a in annotate[index:]:
-                if j == 0:
-                    j += 1
-                    continue
-                sampleNum = int(a[0]) // 2
-                if sampleNum > i:
-                    if sampleNum < (i + WINDOW_SIZE):
-                        anno.append(a[1])
-                        index += 1
-                    else:
-                        break
+            annotate.append([int(line.split()[1]), line.split()[2]])
+        for anno in annotate[4:-4]:
+            fileTrainingData.append([ecgData[anno[0]//2 - WINDOW_SIZE//2: anno[0]//2 + WINDOW_SIZE//2], anno[1]])
 
-            fileTrainingData.append([ecgData[i: i + WINDOW_SIZE], anno])
-            i += WINDOW_SIZE
-    toRemove = []
 
-    for i, datapoint in enumerate(fileTrainingData):
-        if (len(datapoint[1]) != 1):
-            toRemove.append(i)
-
-    fileTrainingData = [j for i, j in enumerate(fileTrainingData) if i not in toRemove]
+    #     while (i + WINDOW_SIZE) < length:
+    #         j = 0
+    #         anno = []
+    #         for a in annotate[index:]:
+    #             if j == 0:
+    #                 j += 1
+    #                 continue
+    #             sampleNum = int(a[0]) // 2
+    #             if sampleNum > i:
+    #                 if sampleNum < (i + WINDOW_SIZE):
+    #                     anno.append(a[1])
+    #                     index += 1
+    #                 else:
+    #                     break
+    #
+    #         fileTrainingData.append([ecgData[i: i + WINDOW_SIZE], anno])
+    #         i += WINDOW_SIZE
+    # toRemove = []
+    #
+    # for i, datapoint in enumerate(fileTrainingData):
+    #     if (len(datapoint[1]) != 1):
+    #         toRemove.append(i)
+    #
+    # fileTrainingData = [j for i, j in enumerate(fileTrainingData) if i not in toRemove]
 
     return fileTrainingData
 
-#Function to the training data to a file.
-def save_training_samples(trainingSamples):
-    with open(r'training_samples.txt', 'w+') as f:
-        f.write(str(trainingSamples))
 
-def load_training_samples():
-    dic = ''
-    with open(r'training_samples.txt', 'r') as f:
-        for i in f.readlines():
-            dic = i
-    return eval(dic)
 
 
 # path = "./ecgData\mitbih_database"
@@ -188,7 +181,7 @@ def load_training_samples():
 # for x in newFiles:
 #     print(x)
 #     trainingData = trainingData + getTrainingData(x)
-#
+# #
 # random.shuffle(trainingData)
 #
 # trainingSamples = []
@@ -216,8 +209,9 @@ def load_training_samples():
 # for i, sample in enumerate(trainingData):
 #     if sample[1][0] in counter.keys():
 #        sample[1] = counter[sample[1][0]]
-#
-#
+# print(counter)
+
+
 #
 # save_training_samples(trainingData)
 

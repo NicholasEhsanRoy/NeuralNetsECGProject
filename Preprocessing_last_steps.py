@@ -73,13 +73,14 @@ def sample_targets(trainingData):
 
 
 def convert_to_nparray(trainingData):
-    samples = np.empty(shape=(10000,144))
+    samples = np.empty(shape=(10000,180))
     targets = np.empty(shape=(10000,5))
+
     for i, training in enumerate(trainingData):
         samples[i] = training[0]
         targets[i] = training[1]
-    np.save("targets", targets)
-    np.save("samples", samples)
+    np.save("targets_centered", targets)
+    np.save("samples_centered", samples)
 
 def get_usable_trainingdata():
     trainingData = process_data()
