@@ -1,3 +1,5 @@
+import math
+
 import DataCleaningThirdFile as dct
 import os
 import numpy as np
@@ -58,29 +60,34 @@ def one_hot_encode(trainingData):
 def sample_targets(trainingData):
     new_trainingData = []
     random.shuffle(trainingData)
-    counter = {'V': 0,
-               'R': 0,
-               'L': 0,
-               'N': 0,
-               '/': 0}
+    indices = {'V': 0,
+               'R': 1,
+               'L': 2,
+               'N': 3,
+               '/': 4}
+    new_data = [[],[],[],[],[]]
     for sample in trainingData:
-        if sample[1][0] in counter.keys() and counter[sample[1][0]] < 2000:
-            new_trainingData.append(sample)
-            counter[sample[1][0]] += 1
-        if (counter['V'] + counter['R'] + counter['L'] + counter['N'] + counter['/']) >= 10000:
-            return new_trainingData
+        if sample[1][0] in indices.keys():
+            new_data[indices[sample[1][0]]].append(sample)
+    lowest = math.inf
+    for annotations in new_data:
+        if len(annotations) < lowest:
+            lowest = len(annotations)
+    for annotations in new_data:
+        new_trainingData.extend(annotations[:lowest])
+    random.shuffle(new_trainingData)
     return new_trainingData
 
 
 def convert_to_nparray(trainingData):
-    samples = np.empty(shape=(10000,180))
-    targets = np.empty(shape=(10000,5))
+    samples = np.empty(shape=(len(trainingData),180))
+    targets = np.empty(shape=(len(trainingData),5))
 
     for i, training in enumerate(trainingData):
         samples[i] = training[0]
         targets[i] = training[1]
-    np.save("targets_centered", targets)
-    np.save("samples_centered", samples)
+    np.save("targets_centered_max_samples", targets)
+    np.save("samples_centered_max_samples", samples)
 
 def get_usable_trainingdata():
     trainingData = process_data()
