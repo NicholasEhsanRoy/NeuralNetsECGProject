@@ -9,6 +9,8 @@ from sklearn.metrics import multilabel_confusion_matrix
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
 
+#Function to plot the average of the last 30 epochs of a model with error bars. Used to find the optimal
+#regularization term.
 def plot_histories(loss, val_loss, hyperparameter_values, std_loss, std_val_loss):
     plt.figure()
     plt.xticks([0, 1, 2, 3, 4, 5], ['{:.0e}'.format(x) for x in hyperparameter_values])
@@ -20,12 +22,13 @@ def plot_histories(loss, val_loss, hyperparameter_values, std_loss, std_val_loss
     plt.xlabel('alpha value')
     plt.ylabel('loss / validation loss')
 
-
+#Loads the data from files into numpy arrays.
 def load_data():
     samples = np.load("samples_centered_max_samples.npy")
     targets = np.load("targets_centered_max_samples.npy")
     return samples, targets
 
+#Splitting the data into a train and testset.
 X, y = load_data()
 split = int(len(X)*0.8)
 X_train, X_test = X[:split],X[split:]
@@ -64,6 +67,7 @@ checkpoint_dir = os.path.dirname(checkpoint_path)
 cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                  save_weights_only=True,
                                                  verbose=1)
+#Training of the final model with all of the training data and the optimal regularizing term.
 optimal_alpha = 0.000001
 model = keras.Sequential()
 model.add(keras.layers.Dense(64, activation='sigmoid', kernel_regularizer=keras.regularizers.L2(optimal_alpha)))
@@ -79,6 +83,8 @@ history = model.fit(X_train, y_train, epochs=500, callbacks=[cp_callback], verbo
 
 
 
+#A set of predictions made on the test set by the model are obtained and compared to the ground truth.
+#The the outcome is then plotted in a confusion matrix
 y_pred = model.predict(X_test)
 y_true = y_test
 matrix = multilabel_confusion_matrix(y_test.argmax(axis=1), y_pred.argmax(axis=1))

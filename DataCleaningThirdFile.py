@@ -137,83 +137,11 @@ def getTrainingData(annotationFileName):
             fileTrainingData.append([ecgData[anno[0]//2 - WINDOW_SIZE//2: anno[0]//2 + WINDOW_SIZE//2], anno[1]])
 
 
-    #     while (i + WINDOW_SIZE) < length:
-    #         j = 0
-    #         anno = []
-    #         for a in annotate[index:]:
-    #             if j == 0:
-    #                 j += 1
-    #                 continue
-    #             sampleNum = int(a[0]) // 2
-    #             if sampleNum > i:
-    #                 if sampleNum < (i + WINDOW_SIZE):
-    #                     anno.append(a[1])
-    #                     index += 1
-    #                 else:
-    #                     break
-    #
-    #         fileTrainingData.append([ecgData[i: i + WINDOW_SIZE], anno])
-    #         i += WINDOW_SIZE
-    # toRemove = []
-    #
-    # for i, datapoint in enumerate(fileTrainingData):
-    #     if (len(datapoint[1]) != 1):
-    #         toRemove.append(i)
-    #
-    # fileTrainingData = [j for i, j in enumerate(fileTrainingData) if i not in toRemove]
 
     return fileTrainingData
 
 
 
-
-# path = "./ecgData\mitbih_database"
-#
-# files = os.listdir(path)
-# newFiles = []
-# for file in files:
-#     if file[-1] == "t":
-#         newFiles.append(file)
-#
-#
-# trainingData = []
-#
-# for x in newFiles:
-#     print(x)
-#     trainingData = trainingData + getTrainingData(x)
-# #
-# random.shuffle(trainingData)
-#
-# trainingSamples = []
-# counter = {"N":0,
-#            "L":1,
-#            "R":2,
-#            "A":3,
-#            "a":4,
-#            "J":5,
-#            "S":6,
-#            "V":7,
-#            "F":8,
-#            "[":9,
-#            "!":10,
-#            "]":11,
-#            "e":12,
-#            "j":13,
-#            "E":14,
-#            "/":15,
-#            "f":16,
-#            "x":17,
-#            "Q":18,
-#            "|":19}
-#
-# for i, sample in enumerate(trainingData):
-#     if sample[1][0] in counter.keys():
-#        sample[1] = counter[sample[1][0]]
-# print(counter)
-
-
-#
-# save_training_samples(trainingData)
 
 
 

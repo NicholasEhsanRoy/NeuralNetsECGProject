@@ -5,6 +5,8 @@ import os
 import numpy as np
 import random
 
+#Raw data is loaded from the patient files and put into a list.
+#First preprocessing steps are the carried out and the data is returned.
 def process_data():
     trainingData = []
     path = "./ecgData\mitbih_database"
@@ -23,6 +25,7 @@ def process_data():
 
     return trainingData
 
+#Function to turn labels into one-hot encoding.
 def one_hot_encode(trainingData):
     reference = {"N": 0,
                  "L": 1,
@@ -57,6 +60,7 @@ def one_hot_encode(trainingData):
             print("didnt work with annotation: " + str(sample[1][0]))
     return trainingData
 
+#Classes to be classified are randomly sampled from the data with identical sizes for each class.
 def sample_targets(trainingData):
     new_trainingData = []
     random.shuffle(trainingData)
@@ -78,7 +82,7 @@ def sample_targets(trainingData):
     random.shuffle(new_trainingData)
     return new_trainingData
 
-
+#Data is converted to numpy arrays in order to prepare it to be input into the model.
 def convert_to_nparray(trainingData):
     samples = np.empty(shape=(len(trainingData),180))
     targets = np.empty(shape=(len(trainingData),5))
@@ -89,6 +93,7 @@ def convert_to_nparray(trainingData):
     np.save("targets_centered_max_samples", targets)
     np.save("samples_centered_max_samples", samples)
 
+#Bundles all the final preprocessing steps into a function for ease.
 def get_usable_trainingdata():
     trainingData = process_data()
     trainingData = sample_targets(trainingData)
